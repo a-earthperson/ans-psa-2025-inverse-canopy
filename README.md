@@ -2,9 +2,13 @@
 
 ## Quick Links
 - [Presented Slides](./exported/slides_earthperson_psa_2025.pdf)
-- [Detailed Slides from Prelim](./exported/slides_earthperson_prelim_exam.pdf)
+- [Detailed Slides from Prelim](./exported/slides_earthperson_prelim.pdf)
 - [Theoretical Framework from Prelim Report](./exported/report_earthperson_prelim.pdf)
 - [Theoretical Framework from DOE NEUP Report](./exported/report_earthperson_excerpts_from_neup.pdf)
+
+
+
+<embed src="./exported/slides_earthperson_prelim.pdf" width="800" height="450">
 
 ## An Informal Overview
 Probabilistic risk assessment (PRA) for nuclear systems requires evaluating complex Boolean
