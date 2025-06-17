@@ -1,0 +1,93 @@
+\section{Preliminary Case Study}
+\subsection{Setup}
+\begin{frame}
+    \Huge{\centerline{\textbf{Preliminary Case Study}}}
+\end{frame}
+
+\subsection{Aralia Fault Tree Data Set}
+\begin{frame}[t]
+\frametitle{Overview: Aralia Dataset}
+\begin{itemize}
+  \item \textbf{Dataset Composition:} The Aralia collection consists of 43 distinct fault trees, each with varying numbers of basic events (BEs), gate types (AND, OR, K/N, XOR), and minimal cut-set counts.  
+  \item \textbf{Diverse Problem Sizes:} Small trees (e.g.\ 25--32 BEs) through large models with over 1{,}500 BEs.  
+  \item \textbf{Wide Probability Range:} Top-event probabilities spanning from rare events near \(10^{-13}\) to fairly likely failures with probability above 0.7.  
+  \item \textbf{Model Variability:} Some trees are primarily AND/OR, others incorporate more advanced gates (K/N, XOR, NOT), providing thorough coverage of typical (and atypical) fault tree logic structures.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \input{4_casestudy/3_table_aralia_ft_dataset}
+\end{frame}
+
+\subsection{Benchmarking Procedure}
+\begin{frame}[t]
+\frametitle{Benchmarking Setup: Hardware and Environment}
+\begin{itemize}
+  \item \textbf{Target Hardware:}
+    \begin{itemize}
+      \item GPU: NVIDIA\textsuperscript{\textregistered} GeForce GTX 1660 SUPER (6\,GB GDDR6, 1{,}408 CUDA cores).
+      \item CPU: Intel\textsuperscript{\textregistered} Core\textsuperscript{TM} i7-10700 (2.90\,GHz, turbo-boost, hyperthreading).
+    \end{itemize}
+  \item \textbf{Software Stack:}
+    \begin{itemize}
+      \item SYCL-based (AdaptiveCpp/HipSYCL), with LLVM-IR JIT for kernel compilation.
+      \item Compiler optimization at \texttt{-O3} for efficient code generation.
+      \item Repeated runs (5+) to mitigate transient variations.
+    \end{itemize}
+  \item \textbf{Measured Time:} Includes entire wall-clock duration, from host-device transfers and JIT compilation to final result collection.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Monte Carlo Execution and Implementation}
+\begin{itemize}
+  \item \textbf{Sampling Strategy:}
+    \begin{itemize}
+      \item Single pass per fault tree, generating as many samples as fit in 6\,GB GPU memory.  
+      \item 128-bit Philox4x32x10 pseudo-random number generator, parallel threads.
+    \end{itemize}
+  \item \textbf{Bit-Packing Optimization:}
+    \begin{itemize}
+      \item Each group of 64 Monte Carlo outcomes stored in a single 64-bit word.  
+      \item Enables vectorized instructions (e.g.\ \texttt{popcount}) and reduces memory I/O.
+    \end{itemize}
+  \item \textbf{Data Types:}
+    \begin{itemize}
+      \item Tallies in 64-bit integers.  
+      \item Probability accumulations in double precision (64-bit float).  
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{4_casestudy/error_vs_prob_detailed.png}
+    \caption{Mean Absolute Error – Exact (BDD) vs Approximate Methods}
+    \label{fig:mae_vs_logp}
+\end{figure}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{4_casestudy/rare-event.jpg}
+    \label{fig:rare}
+\end{figure}
+\end{frame}
+
+
+\subsection{Aralia Fault Tree Data Set - Convergence for Rare Events}
+\begin{frame}[allowframebreaks]
+    \input{4_casestudy/4_mae}
+\end{frame}
+
+
+% \begin{frame}{Aralia Fault Tree Dataset}
+% show the input dataset table\\
+% \end{frame}
+
+% \subsection{Results}
+% \begin{frame}{Mar}
+% show the input dataset table\\
+% \end{frame}

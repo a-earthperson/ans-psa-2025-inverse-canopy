@@ -1,0 +1,70 @@
+\subsection{Emerging Opportunities}
+
+\begin{frame}[t]{Evolving Hardware Landscape}
+\textbf{Industry responding to emerging ML compute challenges by investing heavily in data-parallel hardware}
+  \begin{itemize} 
+    \item GPUs, tensor cores provide high throughput for integer operations.
+    \item Current-gen consumer hardware already supports specialized ops (Intel AMX, VNNI).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Designed for Massive Workloads}
+  \begin{itemize} 
+    \item $\approx10^9$ parameters on mobile devices, $\approx10^{12}$ on HPC/cloud.
+    \item Comparatively, largest PRA models: $\approx10^6$ parameters.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Evolving Hardware Landscape}
+\textbf{Industry responding to emerging ML compute challenges by investing heavily in data-parallel hardware}
+  \begin{itemize} 
+    \item GPUs, tensor cores provide high throughput for integer operations.
+    \item Current-gen consumer hardware already supports specialized ops (Intel AMX, VNNI).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Designed for Massive Workloads}
+  \begin{itemize} 
+    \item $\approx10^9$ parameters on mobile devices, $\approx10^{12}$ on HPC/cloud.
+    \item Comparatively, largest PRA models: $\approx10^6$ parameters.
+  \end{itemize}
+      \vspace{12pt}
+  \textit{But PRA models have no overlap with ML models.}\\
+\end{frame}
+
+\begin{frame}[t]{Evolving Hardware Landscape}
+\textbf{Industry responding to emerging ML compute challenges by investing heavily in data-parallel hardware}
+  \begin{itemize} 
+    \item GPUs, tensor cores provide high throughput for integer operations.
+    \item Current-gen consumer hardware already supports specialized ops (Intel AMX, VNNI).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Designed for Massive Workloads}
+  \begin{itemize} 
+    \item $\approx10^9$ parameters on mobile devices, $\approx10^{12}$ on HPC/cloud.
+    \item Comparatively, largest PRA models: $\approx10^6$ parameters.
+  \end{itemize}
+      \vspace{12pt}
+  \textit{But PRA models have no overlap with ML models(?)}\\
+\end{frame}
+
+\begin{frame}[t]{Evolving Hardware Landscape}
+\textbf{Industry responding to emerging ML compute challenges by investing heavily in data-parallel hardware}
+  \begin{itemize} 
+    \item GPUs, tensor cores provide high throughput for integer operations.
+    \item Current-gen consumer hardware already supports specialized ops (Intel AMX, VNNI).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Designed for Massive Workloads}
+  \begin{itemize} 
+    \item $\approx10^9$ parameters on mobile devices, $\approx10^{12}$ on HPC/cloud.
+    \item Comparatively, largest PRA models: $\approx10^6 \text{ to } 10^9$ parameters.
+  \end{itemize}
+    \vspace{12pt}
+\textit{But PRA models have no overlap with ML models (?)} - \textbf{Research Question}\\
+\textit{Probability estimation analogous to inference in feed-forward networks.}
+\end{frame}
+
+\note{
+    \begin{itemize}
+        \item here, I want to say that hardware vendors, and the industry in general is responding to emerging AI/ML compute challenges by investing heavily in data-parallel hardware (GPGPU, ASIC accelerators, tensor processors). Ops/W/die is improving, opening up opportunities on HPC/cloud as well edge/personal devices. At the same time, the sheer complexity of AI/ML models is many orders of magnitude (trillions of params) larger vs PRA models (currently hundreds of thousands to millions of params). If the algorithms could leverage the appropriate hardware, PRA quantification (in terms of size) would have been solved by now. But, SOTA PRA methods are nowhere close to being able to leverage this new/emerging hardware. We need new methods.
+    \end{itemize}
+}

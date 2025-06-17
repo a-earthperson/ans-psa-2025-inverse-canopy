@@ -1,0 +1,196 @@
+
+
+\section{Research Objective 2: Develop data-parallel Monte Carlo methods for evaluating Boolean circuits}
+\begin{frame}
+    \Large{\centerline{\textbf{Research Objective 2}}}
+    \vspace{6pt}
+    \large{\centerline{\textbf{Develop data-parallel Monte Carlo methods for evaluating Boolean circuits}}}
+\end{frame}
+
+\subsection{Building a Monte Carlo Estimator for Event Probabilities}
+\begin{frame}[t, allowframebreaks]
+\frametitle{Boolean Functions: Basic Concepts}
+\begin{itemize}
+  \item Let \(\mathbf{x} = (x_1, x_2, \dots, x_n)\) be a vector of \(n\) Boolean variables, each \(x_i \in \{0,1\}\).
+  \item A \emph{Boolean function} is any map \(F(\mathbf{x}): \{0,1\}^n \to \{0,1\}\).
+  \item Example: If \(F\) encodes “system fails,” then \(F(\mathbf{x}) = 1\) signifies a failure mode, where \(\mathbf{x}\) captures component states.
+  \item Modeling perspective:
+    \begin{itemize}
+      \item AND, OR, NOT, \(k\)-of-\(n\) gates allow composing complex logic.  
+      \item Each \(F\) can be evaluated deterministically if we know \(\mathbf{x}\).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{Exact Probability Estimation: Inclusion-Exclusion}
+\begin{itemize}
+  \item Suppose each \(x_i\) has a probability \(p_i = \Pr[x_i=1]\), assuming independence.
+  \item We want \(\Pr[F(\mathbf{x}) = 1]\), which is
+  \[
+    \Pr\bigl[F(\mathbf{X})=1\bigr]
+    \;=\; 
+    \sum_{\mathbf{x}\in \{0,1\}^n}
+      F(\mathbf{x}) 
+      \prod_{i=1}^n
+      \bigl[p_i^{\,x_i}(1-p_i)^{\,1-x_i}\bigr].
+  \]
+  \item For sets of events, using the \emph{inclusion-exclusion principle}:
+  \[
+    \Pr\Bigl(\bigcup_{i=1}^n E_i\Bigr)
+    \;=\;
+    \sum_{k=1}^n \;(-1)^{k+1} 
+    \;\;\sum_{1\le i_1< \cdots < i_k\le n}
+    \!\Pr\bigl(E_{i_1}\cap\dots\cap E_{i_k}\bigr).
+  \]
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Approximation Methods: REA and MCUB}
+ For large \(n\), exact enumeration of subsets is exponential, making it impractical for large Boolean circuits.
+ \vspace{8pt}
+\begin{itemize}
+  \item \textbf{Rare-Event Approximation (REA):}
+    \begin{itemize}
+      \item Assumes each event has small probability \(p_i \ll 1\).
+      \item Overlaps (intersections of multiple failures) are deemed negligible.
+      \item Probability of the union \(\approx \sum_{i} \Pr[E_i]\), ignoring higher-order terms.
+    \end{itemize}
+\framebreak
+  \item \textbf{Min-Cut Upper Bound (MCUB):}
+    \begin{equation}
+    \label{eq:mcub_slides}
+      \Pr\Bigl[\bigcup_{C \in \{\mathrm{MCS}\}} C\Bigr]
+      \;\le\;
+      \sum_{C \in \{\mathrm{MCS}\}}
+      \;\prod_{b \in C} p_b ,
+    \end{equation}
+    \begin{itemize}
+      \item Interprets each minimal cut set (MCS) as a distinct mechanism for failure.
+      \item Sums (over)estimate total failure if MCSs share components.
+      \item Often used as a conservative bound in safety analyses.
+    \end{itemize}
+  \vspace{6pt}
+  \item Both methods reduce complexity but can misestimate the true probability when events are not truly rare or heavily intersect.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{Monte Carlo Sampling}
+\begin{itemize}
+  \item Rather than summing or bounding all combinations of failures, \emph{simulate} random draws of \(\mathbf{X}\).
+  \item Each Monte Carlo iteration:
+    \begin{enumerate}
+      \item Sample \(x_1, x_2,\dots,x_n \overset{\text{i.i.d.}}{\sim} \prod p(x_i)\).
+      \item Evaluate the Boolean function \(F(\mathbf{x})\) (cost is just logical gate evaluation).
+      \item Collect whether \(F(\mathbf{x})=1\) (failure) or 0 (success).
+    \end{enumerate}
+  \item Repeating for many samples \(\{\mathbf{x}^{(1)}, \dots, \mathbf{x}^{(N)}\}\) yields a \emph{sample average} estimate of the probability.
+  \item Benefits:
+    \begin{itemize}
+      \item Bypasses explicit inclusion-exclusion expansions.
+      \item Straightforward to parallelize (evaluate each draw in separate threads or blocks).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{Estimator for the Expected Value (i.e., Probability)}
+\begin{itemize}
+  \item A Boolean function \(F(\mathbf{x})\) can be viewed as an indicator function: \(F(\mathbf{x}) \in \{0,1\}\).
+  \item The event \(\{F(\mathbf{X})=1\}\) has probability \(\mathbb{E}[F(\mathbf{X})]\).
+  \item \textbf{Monte Carlo estimator:}
+    \[
+      \widehat{P}_N
+      \;=\;
+      \frac{1}{N}\sum_{i=1}^N 
+      F\!\bigl(\mathbf{x}^{(i)}\bigr),
+    \]
+    where each \(\mathbf{x}^{(i)}\) is a random draw from the input distribution.
+  \item By the Law of Large Numbers,
+    \[
+      \lim_{N \to \infty}\;\widehat{P}_N
+      \;=\;
+      \Pr\bigl[F(\mathbf{X})=1\bigr],
+      \quad \text{almost surely}.
+    \]
+  \item Error decreases at rate \(\mathcal{O}(1/\sqrt{N})\), analyzed via the Central Limit Theorem.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]
+\frametitle{Boolean Derivatives: Definition and Interpretation}
+\begin{itemize}
+\item \textbf{Boolean Derivative Concept:}  
+  For a Boolean function \(F(\mathbf{x})\) with \(\mathbf{x}=(x_1,\ldots,x_n)\), the derivative with respect to \(x_i\) is defined via XOR:
+  \[
+    \frac{\partial F}{\partial x_i}
+    \;=\;
+    F(x_i=0,\mathbf{x}_{-i})
+    \;\oplus\;
+    F(x_i=1,\mathbf{x}_{-i}),
+  \]
+  where \(\oplus\) denotes the exclusive-OR operation, and \(\mathbf{x}_{-i}\) are all variables except \(x_i\).
+\item \textbf{Interpretation:}  
+  \begin{itemize}
+    \item \(\frac{\partial F}{\partial x_i}(\mathbf{x})=1\) whenever \emph{flipping} \(x_i\) changes the value of \(F\) under the specific configuration \(\mathbf{x}_{-i}\).  
+    \item Captures \emph{sensitivity}: if \(\frac{\partial F}{\partial x_i}\) rarely equals \(1\), then \(F\) is robust to changes in \(x_i\).  
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+\frametitle{Extension to Monte Carlo Estimation of Boolean Derivatives}
+\begin{itemize}
+  \item \textbf{Key Idea:} Estimate \(\mathbb{E}[\,\partial F / \partial x_i\,]\) by sampling random configurations \(\mathbf{x}^{(s)}\) of the Boolean inputs, then checking how \(F\) changes when \(x_i\) is flipped.
+  \vspace{8pt}
+  \item \textbf{Sampling Procedure:}
+    \begin{enumerate}
+      \item Draw \(\mathbf{x}^{(s)} = \bigl(x_1^{(s)},\dots,x_n^{(s)}\bigr)\) from the distribution of interest.  
+      \item Form \(\mathbf{x}^{(s)} \oplus \mathbf{e}_i\) by flipping the \(i\)th coordinate.
+      \item Compute:
+        \[
+          \frac{\partial F}{\partial x_i}\bigl(\mathbf{x}^{(s)}\bigr)
+          \;=\;
+          F\!\bigl(\mathbf{x}^{(s)}\bigr)
+          \;\oplus\;
+          F\!\bigl(\mathbf{x}^{(s)} \oplus \mathbf{e}_i\bigr).
+        \]
+    \end{enumerate}
+  \item \textbf{Insight:}  
+    \begin{itemize}
+    \item{Sensitivity and importance analysis using sampling methods.}
+    \item{Gradient computation opens a path towards learning-based tasks.}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{Avoiding Inclusion-Exclusion via Monte Carlo}
+\begin{itemize}
+  \item Exact expansions for large circuits require enumerating all subsets of failing components or gates, which is computationally huge.
+  \item In contrast, \emph{Monte Carlo} draws a sample \(\mathbf{x}\in \{0,1\}^n\) and directly evaluates \(F(\mathbf{x})\) without enumerating \emph{all} subsets.
+  \item Each run picks a single draw of failed components from the distribution. After many runs, the frequency of \(F=1\) approximates its probability.
+  \item Results:
+    \begin{itemize}
+      \item No exponential blow-up in the number of terms.
+      \item Straightforward extension to complex gate structures, correlated variables.
+      \item Parallelizable on modern CPU/GPU architectures.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{Data-Parallel Implementation using SYCL}
+\item \textbf{Data-Parallel Monte Carlo for Boolean Circuits:}
+  \begin{itemize}
+    \item{Simultaneous evaluation of \emph{all} intermediate gates, success, and failure paths.}
+    \item{Relax coherence constraints - arbitrary shapes with NOT gates permitted.}
+    \item{Vectorized bitwise hardware ops for logical primitives (AND, OR, XOR, etc.)}
+    \item{Specialized treatment of \(k/n\) logic, without expansion.}
+    \item{Simultaneous use of all available compute - GPUs, multicore CPUs.}
+    \vspace{16pt}
+  \end{itemize}
+\end{frame}

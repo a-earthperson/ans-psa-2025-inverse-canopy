@@ -1,0 +1,126 @@
+\mode<presentation>
+\usetheme{Antibes}
+
+% Add these to your preamble:
+\usepackage{tikz}
+\usepackage[absolute,overlay]{textpos}
+\setbeamertemplate{title page}{%
+    % Background image only on title page
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[anchor=center] at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight]{assets/bg.png}};
+        % Bottom-left logo (company)
+        \node[anchor=south west, xshift=0.60cm, yshift=0.40cm] at (current page.south west) {\includegraphics[height=0.85cm]{assets/ncstate-type-2x2-wht-rgb.eps}};
+    \end{tikzpicture}
+    % Main title and author block (left-aligned)
+    \begin{textblock*}{0.6\paperwidth}(1.5em,1.5em)
+        {\usebeamerfont{title}\color{PSATitleText}\fontsize{18pt}{20pt}\selectfont\textbf{{\inserttitle}}\par}
+        \vspace{1em}
+        {\usebeamerfont{author}\color{black}\fontsize{14pt}{20pt}\selectfont\insertauthor\par}
+        {\usebeamerfont{institute}\color{MediumBlack}\fontsize{14pt}{16pt}\selectfont\insertinstitute\par}
+    \end{textblock*}
+}
+
+\setbeamersize{text margin left=1.5em,text margin right=1.5em}
+
+
+\setlength{\itemsep}{0pt} % spacing between items
+\setlength{\parsep}{0pt} % spacing between paragraphs
+
+\usepackage[backend=biber, style=numeric, sorting=ydnt, doi=true, eprint=false, related=false, url=true, isbn=true, date=year, giveninits=false, maxnames=9, defernumbers=true]{biblatex}
+\addbibresource{reference.bib}
+
+% Custom author highlighting
+\DeclareNameFormat{author}{%
+  \begingroup
+    \nameparts{#1}% split the name into parts
+    \edef\lastname{\namepartfamily}%
+    \edef\firstname{\namepartgiven}%
+    % Check if the name matches exactly "Earthperson, Arjun"
+    \IfStrEq{\lastname}{Earthperson}{%
+      \IfStrEq{\firstname}{Arjun}{%
+        % Highlight matched author
+        %\textbf{\textcolor{blue}{\lastname, \firstname}}%
+        {\textbf{\textcolor{black}{\firstname \space \lastname}}}%
+      }{%
+        % Not matched, print normally
+        \firstname \space \lastname
+      }%
+    }{%
+      % Not matched, print normally
+     \firstname \space \lastname %
+    }%
+    % Add comma between authors if needed
+    \ifthenelse{\value{listcount}<\value{liststop}}%
+      {\addcomma\space}%
+      {}%
+  \endgroup
+}
+
+\defbibenvironment{bibliography}
+{\list{}
+{
+% \setlength{\leftmargin}{0pt}%
+% \setlength{\itemindent}{0pt}%
+\setlength{\itemsep}{6pt}%
+\setlength{\parsep}{0pt}
+}}
+{\endlist}
+{\item}
+
+\defbibenvironment{bibliography}
+  {\list
+     {\printtext[labelnumberwidth]{\printfield{labelnumber}}}% print reference numbers
+     {
+      \setlength{\labelwidth}{\labelnumberwidth}%
+      \setlength{\leftmargin}{0.5\labelwidth}%
+      \setlength{\labelsep}{0.15\biblabelsep}%
+      \setlength{\itemsep}{0pt}% spacing between items
+      \setlength{\parsep}{6pt}% spacing between paragraphs
+     }
+  }
+{\endlist}
+{\item}
+
+\renewcommand\bibfont{\tiny}
+
+
+\makeatletter
+\setbeamertemplate{footline}{%
+  \ifnum\insertpagenumber=1
+    % Title page: no footline
+  \else
+    \leavevmode%
+    \hbox{%
+      \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
+        \hspace{0.5em}
+        \includegraphics[height=2ex]{assets/ncstate-type-2x1-red-rgb.eps}
+        \vspace{0.5ex}
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.34\paperwidth,ht=2.5ex,dp=1ex,center]{footline}%
+        \centering
+        \usebeamerfont{footline}\insertframenumber{}/\inserttotalframenumber
+        \vspace{0.5ex}
+      \end{beamercolorbox}%
+      \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+        \hfill
+        \includegraphics[height=2.5ex]{assets/ans-logo.png}
+        \hspace{0.5em}
+      \end{beamercolorbox}%
+    }
+  \fi
+}
+\makeatother
+
+
+% \setbeamertemplate{section in toc}[sections numbered]
+% \setbeamertemplate{subsection in toc}{%
+%     \leavevmode
+%     \leftskip=3.2em
+%     \rlap{\hskip-2em\inserttocsectionnumber.\inserttocsubsectionnumber}
+%     \inserttocsubsection\par
+% }
+
+\setbeamercovered{transparent=50}
+\usecolortheme{SimpleDarkBlue}
+
+\mode<all>

@@ -1,0 +1,93 @@
+%-------------------------------------------------------------
+%  Package: beamertheme-SimpleDarkBlue
+%  Author: Pin-Yen Huang (pyhuang97@gmail.com)
+%  Version: 1.1, 2025-01-12
+%  Link: https://github.com/pm25/SimpleDarkBlue-BeamerTheme
+%  This is free and unencumbered software released into the
+%  public domain; see <http://unlicense.org> for details.
+%-------------------------------------------------------------
+
+%--------------------------------------
+%  Color Settings
+%--------------------------------------
+
+% core palette
+\definecolor{PSATitleText}{HTML}{003493}
+\definecolor{WolfpackRed}{rgb}{0.8, 0.0, 0.0}
+\definecolor{WolfpackBlack}{rgb}{0.0, 0.0, 0.0}
+\definecolor{WolfpackWhite}{rgb}{1.0, 1.0, 1.0}
+
+% expanded palette
+\definecolor{ReynoldsRed}{rgb}{0.6, 0.0, 0.0}  % reynolds red
+\definecolor{PyromanFlame}{rgb}{0.8196078431, 0.2862745098, 0.01960784314} % pyroman flame
+\definecolor{HuntYellow}{rgb}{0.9803921569, 0.7843137255, 0.0} % hunt yellow
+\definecolor{GenomicGreen}{rgb}{0.4352941176, 0.4901960784, 0.10980392} % genomic green
+\definecolor{CarmichaelAqua}{rgb}{0.0, 0.5176470588, 0.4509803922} % carmichael aqua
+\definecolor{InnovationBlue}{rgb}{0.2588235294, 0.4941176471, 0.5764705882} % innovation blue
+\definecolor{BioIndigo}{rgb}{0.2549019608, 0.337254902, 0.631372549} % bio-indigo
+
+
+\definecolor{red100}{HTML}{ea1500}
+\definecolor{red200}{HTML}{cc0000}
+\definecolor{red300}{HTML}{b40000}
+\definecolor{red400}{HTML}{990000}
+\definecolor{red500}{HTML}{7e0000}
+\definecolor{red600}{HTML}{5e0000}
+\definecolor{red700}{HTML}{3e0000}
+
+\definecolor{pyro400}{HTML}{d14905}
+\definecolor{pyro500}{HTML}{c03003}
+\definecolor{pyro600}{HTML}{a91b02}
+\definecolor{pyro700}{HTML}{910e01}
+
+\definecolor{black600}{HTML}{666666}
+\definecolor{black900}{HTML}{1a1a1a}
+
+
+\definecolor{MutedRed}{rgb}{0.97, 0.92, 0.92}
+\definecolor{MutedGreen}{rgb}{0.92, 0.97, 0.92}
+\definecolor{MutedBlue}{rgb}{0.92, 0.92, 0.97}
+\definecolor{MutedBlack}{rgb}{0.95, 0.95, 0.95}
+
+\definecolor{MediumRed}{rgb}{0.925, 0.345, 0.345}
+\definecolor{MediumGreen}{rgb}{0.37, 0.7, 0.66}
+\definecolor{MutedBlue}{rgb}{0.92, 0.92, 0.97} 
+\definecolor{MutedBlack}{rgb}{0.95, 0.95, 0.95}
+
+\definecolor{MediumRed}{HTML}{990000}
+\definecolor{MediumGreen}{rgb}{0.37, 0.7, 0.66}
+\definecolor{MediumBlue}{rgb}{0.015, 0.315, 0.45}
+\definecolor{MediumBlack}{rgb}{0.219, 0.259, 0.349}
+
+\definecolor{DarkBlue}{rgb}{0.05, 0.15, 0.35}
+
+% set beamer color themes
+\usecolortheme[named=WolfpackRed]{structure}
+
+% customize colors for elements
+\setbeamercolor{title}{bg=red600,fg=white}
+\setbeamercolor{subtitle}{fg=white}
+\setbeamercolor{frametitle}{bg=red300,fg=white}
+
+\setbeamercolor{block title}{fg=white,bg=MediumBlue}
+\setbeamercolor{block body}{fg=black,bg=MutedBlue}
+\setbeamercolor{block title example}{fg=white,bg=MediumGreen}
+\setbeamercolor{block body example}{fg=black,bg=MutedGreen}
+\setbeamercolor{block title alerted}{fg=white,bg=MediumRed}
+\setbeamercolor{block body alerted}{fg=black,bg=MutedRed}
+
+% \setbeamertemplate{itemize subitem}[triangle]
+
+\setbeamercolor{item}{fg=red300}
+\setbeamercolor{subitem}{fg=black600}
+
+
+\setbeamercolor*{bibliography entry title}{fg=red400}
+% \setbeamercolor*{bibliography entry location}{fg=red400}
+\setbeamercolor*{bibliography entry author}{fg=black}
+\setbeamercolor*{bibliography entry note}{fg=red700}
+
+% Remove background color from footers
+\setbeamercolor{author in head/foot}{bg=}
+\setbeamercolor{date in head/foot}{bg=}
+\setbeamercolor{footline}{bg=}
