@@ -8,7 +8,11 @@
 
 
 
-<embed src="./exported/slides_earthperson_prelim.pdf" width="800" height="450">
+  <object type="application/pdf" data="https://github.com/a-earthperson/ans-psa-2025-inverse-canopy/tree/main/exported/slides_earthperson_prelim.pdf" width="100%" height="500px">
+    <embed type="application/pdf" src="https://github.com/a-earthperson/ans-psa-2025-inverse-canopy/tree/main/exported/slides_earthperson_prelim.pdf" width="100%" height="500px">
+    <a href="https://github.com/a-earthperson/ans-psa-2025-inverse-canopy/tree/main/exported/slides_earthperson_prelim.pdf">Link</a>
+  </embed>
+  </object>
 
 ## An Informal Overview
 Probabilistic risk assessment (PRA) for nuclear systems requires evaluating complex Boolean
