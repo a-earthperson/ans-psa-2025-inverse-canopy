@@ -1,7 +1,7 @@
 # Probability Estimation Using Monte Carlo Simulation of Boolean Logic on Hardware-Accelerated Platforms
 
 ## Quick Links
-- [Presented Slides](./exported/slides_earthperson_psa_2025.pdf)
+- [Presented Slides](./exported/earthperson_slides_final.pdf)
 - [Detailed Slides from Prelim](./exported/slides_earthperson_prelim.pdf)
 - [Theoretical Framework from Prelim Report](./exported/report_earthperson_prelim.pdf)
 - [Theoretical Framework from DOE NEUP Report](./exported/report_earthperson_excerpts_from_neup.pdf)
