@@ -1,0 +1,24 @@
+\section{Birds' Eye View}
+\subsection{Research Contribution}
+\begin{frame}{Overview and Highlights I}
+\textbf{High-Throughput Boolean Logic Evaluation (aka Eval Query)}
+  \begin{itemize}
+    \item{Simultaneous evaluation of \emph{all} intermediate gates, success, and failure paths.}
+    \item{Relax coherence constraints: arbitrary graph shapes, with NOT, or any other combination of gates permitted.}
+    \item{Boolean logic manipulation not strictly needed.}
+    \item{Vectorized bitwise hardware ops for logical primitives (AND, OR, XOR, etc.)}
+    \item{Specialized treatment of \(k/n\) logic, without expansion.}
+    \item{Concurrent use of all available compute - GPUs, multicore CPUs.}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Overview and Highlights II}
+\textbf{Probability Estimation using Eval Query (aka Expectation Query)}
+  \begin{itemize}
+    \item{Estimate probabilities for \emph{all} events in the PRA model simultaneously.}
+    \item{No need to compute the minimal cut sets or prime implicants.}
+    \item{Streamable: Solve the entire PRA model iteratively, approx 0.3 seconds per
+iteration, regardless of model size. More iterations needed for complex
+models.}
+  \end{itemize}
+\end{frame}

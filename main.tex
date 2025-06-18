@@ -6,6 +6,14 @@
 \documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
 \usetheme{SimpleDarkBlue}
 
+\usepackage{qrcode}
+
+\usepackage[acronym]{glossaries}
+\makeglossaries
+\input{src/acronyms}
+
+\usepackage{subcaption}
+
 \usepackage{booktabs}  % professionally typeset tables
 \usepackage{amsmath}
 \usepackage{amsthm}
@@ -13,7 +21,8 @@
 \usepackage{amsfonts}
 \usepackage{tikz}
 \usepackage{tikz-qtree}
-\usetikzlibrary{calc,positioning}
+\usetikzlibrary{shapes,arrows,arrows.meta,positioning,intersections, calc,graphs,graphdrawing,quotes,circuits.logic.US,fit,shadows,backgrounds}
+\usegdlibrary{layered}
 \usepackage{pgfpages}
 % \setbeameroption{show notes on second screen}
 \usepackage{multicol}
@@ -30,8 +39,12 @@
 \usepackage{hyperref}
 \usepackage{graphicx} % Allows including images
 \usepackage{fontspec}
+
+\usepackage[inkscapelatex=false]{svg}
+
 %\usepackage{helvet}
 \setsansfont{Open Sans}
+
 %----------------------------------------------------------------------------------------
 %    TITLE PAGE
 %----------------------------------------------------------------------------------------
@@ -44,56 +57,27 @@
 {
     PhD Candidate, PRA Group\\
 }
-%----------------------------------------------------------------------------------------
-%    PRESENTATION SLIDES
-%----------------------------------------------------------------------------------------
 
 \begin{document}
-% \hypersetup{
-% 	pdfkeywords={SP-Right}
-% }
-\begin{frame}
-    % Print the title page as the first slide
-    \titlepage
-\end{frame}
-
-
-\section*{Birds' Eye View}
-\begin{frame}
-  % \begin{multicols}{2}
-
-  % \end{multicols}
-    {\small{\tableofcontents}}
-\end{frame}
 
 
 
-\section{Emerging Opportunities}
-\subsection{Evolving Hardware Landscape}
-% \begin{frame}{}
-% \end{frame}
-\subsection{AI-assisted Workflows}
-% \begin{frame}{}
+% \begin{frame}
+%     \titlepage
 % \end{frame}
 
-\section{PRA Models as Probabilistic Circuits}
-\subsection{Knowledge Compilation}
-\subsection{Efficient Queries}
+\input{src/0_motivation/_}
+\input{src/1_overview/_}
+\input{src/pra_as_pc/_}
+\input{src/case_study/_}
 
-\section{Data-Parallel Monte Carlo for Probabilistic Circuits}
-\subsection{Bitwise K/N Operations}
+% \section{Next Steps}
+% \subsection{G-PWR \& MHGTR Models}
+% \subsection{Importance Sampling}
 
-
-\section{Preliminary Case Study: Aralia Dataset}
-\subsection{Performance \& Accuracy Benchmarks}
-
-\section{Next Steps}
-\subsection{G-PWR \& MHGTR Models}
-\subsection{Importance Sampling}
-
-\section{Upcoming Work}
-\subsection{PRA Semantic Embedding Models}
-\subsection{Gradient Computation for Learning}
+% \section{Upcoming Work}
+% \subsection{PRA Semantic Embedding Models}
+% \subsection{Gradient Computation for Learning}
 
 % \input{0_intro/_}
 % \input{1_concepts/_}
@@ -114,6 +98,8 @@
 \begin{frame}
     \Huge{\centerline{\textbf{The End}}}
 \end{frame}
+
+\input{src/backup}
 
 %----------------------------------------------------------------------------------------
 

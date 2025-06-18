@@ -1,0 +1,170 @@
+\subsection{A Working Example: One Initiating Event, Three Fault Trees, Six Basic Events, Five End States}
+\begin{frame}
+  \begin{columns}
+    % Left column: 2/3 of the text width
+    \column{0.5\textwidth}
+      \includesvg[height=\textheight]{src/figs/pra-model.svg} % Replace with your image file
+
+ % Right column: 1/3 of the text width
+    \column{0.5\textwidth}
+      \begin{table}[t]
+        \centering
+        \begin{tabular}{ll}
+          Variable & Expression \\
+          \hline
+          % $X_1$ & $A|B'$ \\
+          % $X_3$ & $B•C'$ \\
+          % $X_2$ & $A'|X_3$ \\
+          % $X$   & $X_1•X_2$ \\
+          $X$   & $(A|B')•(A'|(B•C'))$ \\
+          % $Y_1$ & $D|E$ \\
+          $Y$   & $C•(D|E)'$ \\
+
+          % $Z_1$   & $A•C$ \\    
+          % $Z_2$   & $D•E$ \\
+          $Z$   & $(A•C)|(D•E)|F'$ \\
+          \hline
+        \end{tabular}
+        \caption{Unsimplified Boolean expression for each Top Event}
+      \end{table}
+      Small, but non-trivial structure:
+      \begin{itemize}
+          \item {Basic events are shared.}
+          \item {Some gate outputs are negated.}
+          \item {Event $Z$ is a (k=2) of n=3 gate.}
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Compile a Directed Acylic Graph (DAG) from Logic Model}
+  \begin{columns}
+    % Left column: 2/3 of the text width
+    \column{0.33\textwidth}
+      \includesvg[width=\linewidth]{src/figs/pra-model.svg} % Replace with your image file
+
+ % Right column: 1/3 of the text width
+     \column{0.33\textwidth}
+      \includesvg[width=\linewidth]{src/figs/dag_pass_1.svg}\par % Replace with your image file
+
+     \column{0.34\textwidth}
+      Start with an Arbitrary Topological Ordering:
+      \begin{itemize}
+          \item {Aim for succinctness.}
+          \item {prefer HW-native ops.}
+          \item {e.g. don't expand k/n.}
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}
+    \column{0.60\textwidth}
+    {
+        \includesvg[height=0.5\textheight]{src/figs/dag_pass_1.svg}\par
+        \vspace{10pt}
+        \textbf{Refinements:}
+      \begin{itemize}
+          \item {Partition into layers.}
+          \item {Vectorize for SIMD by fusing similar ops.}
+          \item {Feed-forward only: improves caching.}
+      \end{itemize}\par
+      \vspace{2pt}
+      \tiny{\textbf{\emph{Still not probabilistic: inputs, outputs are bitpacked INT64 tensors.}}}
+    }
+     \column{0.4\textwidth}
+      \includesvg[height=1.05\textheight]{src/figs/dag_pass_2.svg}\par % Replace with your image file
+  \end{columns}
+\end{frame}
+
+\subsection{Knowledge Compilation and Queries}
+\begin{frame}[t]{Querying the Compiled Knowledge Graph}
+  \begin{columns}
+    \column{0.60\textwidth}
+    {
+      \textbf{The Simplest Type of Query: Eval(G)}\par
+      \begin{itemize}
+          \item {Set the inputs [on/off].}
+          \item {Observe the outputs [on/off].}
+          \item {Can be used as a building block for an embedding ML model.}
+      \end{itemize}\par
+      \vspace{10pt}
+      \textbf{But just how fast is it?}
+    }
+     \column{0.4\textwidth}
+      \includesvg[height=0.9\textheight]{src/figs/dag_pass_2.svg}\par % Replace with your image file
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}[t]{Eval Query on the Compiled Knowledge Graph}
+  \begin{columns}
+    \column{0.60\textwidth}
+    {
+      \textbf{Eval Query Performance on GPUs:}
+      \begin{itemize}
+          \item {Latency: 200-300 $ms$ per graph pass.}
+          \item {Throughput: VRAM bound (see plot).}
+          \item {Benchmarked on Nvidia GTX 1660 [6GB].}
+          \item {Graph sizes: from $\approx 50$ to $\approx 2000$ nodes.}
+          \item {Evals: from 16M to 1B per node per pass.}
+      \end{itemize}
+      \vspace{10pt}
+      \textbf{Q: Are these enough samples to estimate the Expectation Query?}
+    }
+     \column{0.4\textwidth}
+        \centering
+        \includesvg[height=0.9\textheight]{src/figs/plots/mem_allocation_lines_zoom.svg}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Estimator for the Expected Value (i.e., Probability)}
+\begin{itemize}
+  \item A Boolean function \(F(\mathbf{x})\) can be viewed as an indicator function: \(F(\mathbf{x}) \in \{0,1\}\).
+  \item The event \(\{F(\mathbf{X})=1\}\) has probability \(\mathbb{E}[F(\mathbf{X})]\).
+  \item \textbf{Monte Carlo estimator:}
+    \[
+      \widehat{P}_N
+      \;=\;
+      \frac{1}{N}\sum_{i=1}^N 
+      F\!\bigl(\mathbf{x}^{(i)}\bigr),
+    \]
+    where each \(\mathbf{x}^{(i)}\) is a random draw from the input distribution.
+  \item By the Law of Large Numbers,
+    \[
+      \lim_{N \to \infty}\;\widehat{P}_N
+      \;=\;
+      \Pr\bigl[F(\mathbf{X})=1\bigr],
+      \quad \text{almost surely}.
+    \]
+  \item Error decreases at rate \(\mathcal{O}(1/\sqrt{N})\), analyzed via the Central Limit Theorem.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Monte Carlo Sampling}
+\begin{itemize}
+  \item Rather than summing or bounding all combinations of failures, \emph{simulate} random draws of \(\mathbf{X}\).
+  \item Each Monte Carlo iteration:
+    \begin{enumerate}
+      \item Sample \(x_1, x_2,\dots,x_n \overset{\text{i.i.d.}}{\sim} \prod p(x_i)\).
+      \item Evaluate the Boolean function \(F(\mathbf{x})\) (cost is just logical gate evaluation).
+      \item Collect whether \(F(\mathbf{x})=1\) (failure) or 0 (success).
+    \end{enumerate}
+  \item Repeating for many samples \(\{\mathbf{x}^{(1)}, \dots, \mathbf{x}^{(N)}\}\) yields a \emph{sample average} estimate of the probability.
+  \item Benefits:
+    \begin{itemize}
+      \item Bypasses explicit inclusion-exclusion expansions.
+      \item Straightforward to parallelize (evaluate each draw in separate threads or blocks).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\subsection{Back to Working Example: One Initiating Event, Three Fault Trees, Six Basic Events, Five End States}
+\begin{frame}
+  \begin{columns}
+    \column{0.66\textwidth}
+      \includesvg[height=\textheight]{src/figs/dag_pass_3.svg} % Replace with your image file
+     \column{0.33\textwidth}
+      \includesvg[width=\linewidth]{src/figs/pra-model.svg} % Replace with your image file
+  \end{columns}
+\end{frame}

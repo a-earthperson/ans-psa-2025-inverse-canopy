@@ -1,0 +1,81 @@
+\begin{frame}
+Hierarchy of compiled target languages. Blue nodes represent canonical forms.
+\begin{columns}
+    \column{0.33\textwidth}
+    \begin{figure}[ht!]
+        \centering
+        \resizebox{!}{\linewidth}{ % Scale to fit frame height
+        \begin{tikzpicture}
+        \tikzset{canonical/.style={fill=blue!30},myedges/.style={-, >={Stealth[reversed]}, thick},anchored/.style={draw=none, opacity=0, font=\tiny}}
+        \graph [layered layout, nodes=draw, edges=rounded corners,edge=myedges] {
+        {[edge={draw=none},nodes=anchored]
+        1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10;
+        };
+        { [same layer] 1, "Boolean Expression" },
+        { [same layer] 2, NNF, XAG},
+        { [same layer] 3, "f-NNF", DNNF, "d-NNF", AIG, RNF},
+        { [same layer] 4, CNF, DNF, "s-DNNF", "d-DNNF", FPRM },
+        { [same layer] 5, PI[canonical], "IP/BCF"[canonical], PPRM[canonical]},
+        { [same layer] 6, EPI[canonical], EIP[canonical] },
+        { [same layer] 7, "sd-DNNF", BDD },
+        { [same layer] 8, "f-BDD" },
+        { [same layer] 9, OBDD },
+        { [same layer] 10, SDD[canonical], ROBDD[canonical] },
+        
+        {NNF, XAG} -> "Boolean Expression",
+        {AIG, RNF} -> XAG,
+        {"f-NNF", DNNF, "d-NNF"} -> NNF,
+        {CNF, DNF} -> "f-NNF",
+        PI -> CNF,
+        EPI -> PI,
+        "IP/BCF" -> DNF,
+        EIP -> "IP/BCF",
+        {DNF, "s-DNNF", "d-DNNF"} -> DNNF,
+        "d-DNNF" -> "d-NNF",
+        BDD -> "d-DNNF",
+        "f-BDD" -> BDD,
+        ROBDD -> OBDD,
+        OBDD -> "f-BDD",
+        SDD -> "sd-DNNF",
+        "sd-DNNF" -> {"s-DNNF", "d-DNNF"},
+        FPRM -> RNF,
+        PPRM -> FPRM,
+        };
+        \end{tikzpicture}
+        }
+    \end{figure}\par
+    \column{0.33\textwidth}{
+    \resizebox{!}{0.75\linewidth}{
+        \begin{tabular}{ll}
+        \toprule
+        \textbf{Acronym} & \textbf{Full form} \\
+        \midrule
+        \acrshort{nnf}    & \acrlong{nnf}    \\
+        \acrshort{xag}    & \acrlong{xag}    \\
+        \acrshort{aig}    & \acrlong{aig}    \\
+        \acrshort{rnf}    & \acrlong{rnf}    \\
+        \acrshort{f-nnf}  & \acrlong{f-nnf}  \\
+        \acrshort{dnnf}   & \acrlong{dnnf}   \\
+        \acrshort{d-nnf}  & \acrlong{d-nnf}  \\
+        \acrshort{fprm}   & \acrlong{fprm}   \\
+        \acrshort{cnf}    & \acrlong{cnf}    \\
+        \acrshort{dnf}    & \acrlong{dnf}    \\
+        \acrshort{s-dnnf} & \acrlong{s-dnnf} \\
+        \acrshort{d-dnnf} & \acrlong{d-dnnf} \\
+        \acrshort{sd-dnnf} & \acrlong{sd-dnnf} \\
+        \acrshort{pprm}   & \acrlong{pprm}   \\
+        \acrshort{pi}     & \acrlong{pi}     \\
+        \acrshort{ip}     & \acrlong{ip}     \\
+        \acrshort{bcf}    & \acrlong{bcf}    \\
+        \acrshort{epi}    & \acrlong{epi}    \\
+        \acrshort{eip}    & \acrlong{eip}    \\
+        \acrshort{bdd}    & \acrlong{bdd}    \\
+        \acrshort{f-bdd}  & \acrlong{f-bdd}  \\
+        \acrshort{obdd}   & \acrlong{obdd}   \\
+        \acrshort{sdd}    & \acrlong{sdd}    \\
+        \acrshort{robdd}  & \acrlong{robdd}  \\
+        \bottomrule
+        \end{tabular}\par
+    }}
+    \end{columns}
+\end{frame}

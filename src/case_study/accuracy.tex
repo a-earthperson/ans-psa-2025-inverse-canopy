@@ -1,0 +1,48 @@
+\subsection{Accuracy Benchmark: Relative error (Log-probability), Data-Parallel Monte Carlo vs Min-Cut Upper Bound and Rare-Event Approximation}
+\begin{frame}
+    \begin{figure}[p]
+        \centering
+        \includesvg[height=1\textheight]{src/figs/plots/rel_error.svg}
+    \end{figure}
+\end{frame}
+
+
+\subsection{Performance Benchmark (Memory Consumption): Sampled Bits Per Event Per Iteration}
+\begin{frame}
+  \begin{multicols}{2}
+    \begin{figure}[p]
+        \centering
+        \includesvg[height=1\textheight]{src/figs/plots/mem_allocation_lines_zoom_all.svg}
+    \end{figure}
+    \begin{figure}[p]
+        \centering
+        \includesvg[height=1\textheight]{src/figs/plots/mem_allocation_lines_lg.svg}
+    \end{figure}
+  \end{multicols}
+
+\end{frame}
+
+
+
+\section{Outlook}
+\subsection{}
+\begin{frame}
+  \textbf{Limitations:}
+  \begin{itemize}
+      \item {Brute-force/naive Monte Carlo struggles when sampling rare-events.}
+        \begin{itemize}
+          \item{Implement importance sampling: WIP.}
+        \end{itemize}
+  \end{itemize}\par
+  \vfill
+  \textbf{Next Steps:}
+  \begin{itemize}
+      \item {Benchmark on larger (G-PWR, G-MHTGR) models.}
+  \end{itemize}\par
+  \vfill
+  \textbf{Future Work:}
+  \begin{itemize}
+      \item {Embedding models from Knowledge Graph, for semantic representation.}
+      \item {Gradient computation on Knowledge Graph.}
+  \end{itemize}\par
+\end{frame}

@@ -1,0 +1,27 @@
+\section{Motivation}
+\subsection{Evolving Hardware Landscape}
+
+\begin{frame}{Industry Response to Emergent AI/ML Workloads}
+\textbf{Heavy Investment in Data-Parallel Hardware}
+  \begin{itemize} 
+    \item GPUs, tensor cores provide high throughput for integer operations.
+    \begin{itemize}
+    \item{Apple M4 Neural Engine: $\approx 38$ TOPS (int8)}.
+    \item{Nvidia RTX 4090: $\approx 1000$ TOPS}.
+    \end{itemize}
+    \item Current-gen consumer hardware already supports specialized ops (Intel AMX).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Designed for Inference on Massive Models}
+  \begin{itemize} 
+    \item $\approx10^9$ parameters on mobile devices (e.g., Gemma 2B).
+    \item $\approx10^{12}$ parameters on HPC/cloud (LLaMa 4 at 2 trillion).
+  \end{itemize}
+  \vspace{8pt}
+\textbf{Comparatively,}
+  \begin{itemize} 
+    \item Largest (public) PRA models: $\approx10^6$ parameters (Generic PWR).
+    \item However, PRA model quantification is deeply recursive.
+  \end{itemize}
+
+\end{frame}

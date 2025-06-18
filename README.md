@@ -7,11 +7,6 @@
 - [Theoretical Framework from DOE NEUP Report](./exported/report_earthperson_excerpts_from_neup.pdf)
 
 
-<object type="application/pdf" data="./exported/slides_earthperson_prelim.pdf" width="100%" height="500px">
-  <embed src="./exported/slides_earthperson_prelim.pdf" width="100%" height="500px" type="application/pdf">
-  <a href="./exported/slides_earthperson_prelim.pdf">Download Slides</a>
-</object>
-
 ## An Informal Overview
 Probabilistic risk assessment (PRA) for nuclear systems requires evaluating complex Boolean
 functions that represent failure scenarios across thousands of components in two main steps:

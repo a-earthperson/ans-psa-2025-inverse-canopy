@@ -1,7 +1,6 @@
 \mode<presentation>
 \usetheme{Antibes}
 
-% Add these to your preamble:
 \usepackage{tikz}
 \usepackage[absolute,overlay]{textpos}
 \setbeamertemplate{title page}{%
@@ -9,7 +8,12 @@
     \begin{tikzpicture}[remember picture,overlay]
         \node[anchor=center] at (current page.center) {\includegraphics[width=\paperwidth,height=\paperheight]{assets/bg.png}};
         % Bottom-left logo (company)
-        \node[anchor=south west, xshift=0.60cm, yshift=0.40cm] at (current page.south west) {\includegraphics[height=0.85cm]{assets/ncstate-type-2x2-wht-rgb.eps}};
+        \node[anchor=south west, xshift=1.60cm, yshift=0.40cm] at (current page.south west) {
+        \includegraphics[height=0.85cm]{assets/ncstate-type-2x2-wht-rgb.eps}};
+        \node[anchor=south west, xshift=0.60cm, yshift=0.40cm] at (current page.south west) {
+          % \includegraphics[height=1.08cm]{assets/qr_code.png}
+          \color{white}{\qrcode[height=0.84cm]{https://github.com/a-earthperson/ans-psa-2025-inverse-canopy}}
+        };
     \end{tikzpicture}
     % Main title and author block (left-aligned)
     \begin{textblock*}{0.6\paperwidth}(1.5em,1.5em)
@@ -119,6 +123,22 @@
 %     \rlap{\hskip-2em\inserttocsectionnumber.\inserttocsubsectionnumber}
 %     \inserttocsubsection\par
 % }
+
+\newcommand{\addqrcode}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north east, xshift=0, yshift=0] at (current page.north east) {
+      % \includegraphics[height=1.08cm]{assets/qr_code.png}
+      \colorbox{white}{\qrcode[height=0.86cm]{https://github.com/a-earthperson/ans-psa-2025-inverse-canopy}}
+    };
+  \end{tikzpicture}
+}
+
+\addtobeamertemplate{headline}{}{
+  \ifnum\insertpagenumber>1
+    \addqrcode
+  \fi
+}
+
 
 \setbeamercovered{transparent=50}
 \usecolortheme{SimpleDarkBlue}
